@@ -1,0 +1,1 @@
+import{r as o}from"./index.CBlmr9og.js";function t(){return typeof window<"u"&&(window==null?void 0:window.document)!=null}var n=(e=>(e.desktop="desktop",e.mobile="mobile",e))(n||{});const i=t()?window.matchMedia("(min-width: 61.25rem)"):void 0,d=o.createContext("mobile");new TextEncoder;new TextDecoder;export{n as P,d as a,i as p};
