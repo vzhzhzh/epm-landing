@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /404/
+Disallow: /500/
 Disallow: /admin/
 Disallow: /ajax/
 Disallow: /cart/
@@ -12,16 +14,16 @@ Disallow: /*.pdf$
 Disallow: /*.docx$
 Disallow: /*.xlsx$
 
-# Директивы для Google
 User-agent: Googlebot
+Allow: /_astro/
 Allow: /assets/
 Allow: /css/
 Allow: /js/
 Allow: /images/
 Crawl-delay: 1
 
-# Директивы для Яндекс
 User-agent: Yandex
+Allow: /_astro/
 Allow: /assets/
 Allow: /css/
 Allow: /js/
@@ -29,5 +31,5 @@ Allow: /images/
 Crawl-delay: 1
 Clean-param: utm_source&utm_medium&utm_campaign /
 
-# Файл sitemap
-Sitemap: https://ваш-сайт.ru/sitemap.xml
+
+Sitemap: https://novaepm.com/sitemap-index.xml
