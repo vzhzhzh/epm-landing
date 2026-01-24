@@ -46,6 +46,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <url>
+    <loc>https://novaepm.com/legal/software</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <!-- Блог/Статьи -->
   <url>
     <loc>https://novaepm.com/blog</loc>
