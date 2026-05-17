@@ -34,6 +34,13 @@
   </url>
 
   <url>
+    <loc>https://novaepm.com/bplan/salary</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://novaepm.com/integrations</loc>
     <lastmod>2024-01-08</lastmod>
     <changefreq>monthly</changefreq>
