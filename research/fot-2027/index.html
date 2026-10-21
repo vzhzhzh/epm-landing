@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Бюджетирование ФОТ в России 2027 — исследование Nova EPM</title>
+<meta name="description" content="Опрос для C&B, HR и финансовых директоров о том, как компании планируют затраты на персонал. 7–10 минут, анонимно, отчёт — участникам первыми.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Палитра Nova EPM */
+  :root {
+    --green: #78A200;
+    --green-strong: #5E7F00;
+    --navy: #0A2030;
+    --blue: #005899;
+    --grey: #DFDFDF;
+    --orange: #EB8854;
+
+    --page: #FFFFFF;
+    --surface: #F6F7F5;
+    --ink: #0A2030;
+    --ink-soft: #4A5A66;
+    --line: #DFDFDF;
+    --option: #FFFFFF;
+    --option-on: #F1F6E3;
+    --focus: #005899;
+    --error: #B3261E;
+    --hero-bg: #0A2030;
+    --hero-ink: #FFFFFF;
+    --hero-soft: #B8C4CC;
+
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #07161F;
+      --surface: #0D2230;
+      --ink: #E9EEF1;
+      --ink-soft: #A3B1BA;
+      --line: #23394A;
+      --option: #0D2230;
+      --option-on: #1C2E12;
+      --focus: #5AA9E6;
+      --error: #F2B8B5;
+      --hero-bg: #0D2230;
+      --hero-soft: #A3B1BA;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #07161F;
+    --surface: #0D2230;
+    --ink: #E9EEF1;
+    --ink-soft: #A3B1BA;
+    --line: #23394A;
+    --option: #0D2230;
+    --option-on: #1C2E12;
+    --focus: #5AA9E6;
+    --error: #F2B8B5;
+    --hero-bg: #0D2230;
+    --hero-soft: #A3B1BA;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  [hidden] { display: none !important; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Golos Text", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+  /* Шапка */
+  .top { padding: 20px 0; }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+  .brand span { color: var(--green); }
+  .top small { color: var(--ink-soft); font-size: 14px; }
+
+  /* Вступление */
+  .hero { background: var(--hero-bg); color: var(--hero-ink); border-radius: 20px; padding: 40px 32px; margin: 8px 0 32px; }
+  .hero h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 20px; font-weight: 700; max-width: 18ch; }
+  .hero p { color: var(--hero-soft); margin: 0 0 14px; max-width: 58ch; }
+  .facts { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 28px 0 32px; padding: 0; list-style: none; }
+  .facts li { color: var(--hero-ink); font-size: 15px; }
+  .facts b { display: block; font-size: 26px; line-height: 1.1; color: var(--green); font-weight: 700; }
+
+  /* Прогресс: 6 шагов анкеты */
+  .progress { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); padding: 14px 0 12px; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--page); }
+  .progress-label { font-size: 14px; color: var(--ink-soft); margin-bottom: 8px; }
+  .progress-label b { color: var(--ink); font-weight: 600; }
+  .segments { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .segments i { height: 6px; border-radius: 3px; background: var(--line); transition: background .25s; }
+  .segments i.done { background: var(--green); }
+  .segments i.now { background: var(--blue); }
+
+  /* Вопросы */
+  .step { display: none; padding-bottom: 24px; }
+  .step.active { display: block; }
+  .step h2 { font-size: 26px; line-height: 1.2; letter-spacing: -0.015em; margin: 20px 0 6px; }
+  .step > p { color: var(--ink-soft); margin: 0 0 8px; }
+  fieldset { border: 0; margin: 28px 0 0; padding: 0; min-width: 0; }
+  legend { font-weight: 600; font-size: 19px; line-height: 1.35; padding: 0; margin-bottom: 4px; }
+  legend .num { color: var(--green-strong); margin-right: 6px; }
+  :root[data-theme="dark"] legend .num { color: var(--green); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) legend .num { color: var(--green); } }
+  .hint { font-size: 14px; color: var(--ink-soft); margin: 0 0 12px; }
+  .opts { display: grid; gap: 8px; margin-top: 12px; }
+  .opt { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--option); cursor: pointer; transition: border-color .15s, background .15s; }
+  .opt:hover { border-color: #B9C79A; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .mark { flex: none; width: 20px; height: 20px; margin-top: 2px; border: 1.5px solid #9AA6AE; background: var(--page); transition: all .15s; }
+  .opt input[type=radio] + .mark { border-radius: 50%; }
+  .opt input[type=checkbox] + .mark { border-radius: 5px; }
+  .opt input:checked + .mark { border-color: var(--green); background: var(--green); box-shadow: inset 0 0 0 3px var(--page); }
+  .opt input[type=checkbox]:checked + .mark { box-shadow: none; background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+  .opt:has(input:checked) { border-color: var(--green); background: var(--option-on); }
+  .opt:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .opt:has(input:disabled) { opacity: .45; cursor: not-allowed; }
+  .other { display: none; margin: 4px 0 0 32px; }
+  .other.show { display: block; }
+  .counter { font-size: 14px; color: var(--ink-soft); margin-top: 8px; min-height: 1.5em; }
+  .err { color: var(--error); font-size: 14px; margin-top: 8px; display: none; }
+  fieldset.invalid .err { display: block; }
+  fieldset.invalid .opt { border-color: var(--error); }
+
+  input[type=text], input[type=email] { width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--option); border: 1.5px solid var(--line); border-radius: 10px; padding: 11px 14px; }
+  input[type=text]:focus-visible, input[type=email]:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; border-color: var(--blue); }
+  label.field { display: block; font-weight: 600; margin: 24px 0 8px; }
+
+  .check { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; font-size: 15px; cursor: pointer; }
+  .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--green); flex: none; }
+  .check a { color: var(--blue); }
+  .note { background: var(--surface); border-radius: 12px; padding: 16px 18px; font-size: 15px; color: var(--ink-soft); margin-top: 24px; }
+
+  /* Навигация */
+  .nav { display: flex; gap: 12px; justify-content: space-between; align-items: center; margin: 36px 0 56px; }
+  button { font: inherit; font-weight: 600; font-size: 16px; border-radius: 12px; padding: 14px 24px; cursor: pointer; border: 0; }
+  button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .primary { background: var(--green); color: #fff; margin-left: auto; }
+  .primary:hover { background: var(--green-strong); }
+  .primary[disabled] { opacity: .6; cursor: progress; }
+  .ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .ghost:hover { border-color: var(--ink-soft); }
+  .hero .primary { margin-left: 0; }
+  .form-error { color: var(--error); font-size: 15px; margin-top: 16px; display: none; }
+  .form-error.show { display: block; }
+
+  /* Финал */
+  .done { display: none; padding: 40px 0 80px; }
+  .done.active { display: block; }
+  .done h2 { font-size: 34px; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 16px; }
+  .done p { color: var(--ink-soft); max-width: 58ch; }
+  .done .tick { width: 56px; height: 56px; border-radius: 50%; background: var(--green); display: grid; place-items: center; margin-bottom: 24px; }
+
+  footer { border-top: 1px solid var(--line); padding: 20px 0 32px; font-size: 14px; color: var(--ink-soft); }
+  footer a { color: var(--ink-soft); }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .hero { padding: 28px 20px; border-radius: 16px; }
+    .step h2 { font-size: 23px; }
+    legend { font-size: 18px; }
+    .nav { flex-wrap: wrap; }
+    .nav button { flex: 1 1 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="https://novaepm.com">Nova <span>EPM</span></a>
+    <small>Исследование 2027</small>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="step active" data-step="0" aria-labelledby="intro-title">
+    <div class="hero">
+      <h1 id="intro-title">Бюджетирование ФОТ в России 2027</h1>
+      <p>Мы изучаем, как российские компании планируют и контролируют затраты на персонал: в чём собирают бюджет, сколько длится кампания, насколько точен план.</p>
+      <p>Опрос анонимный. Результаты публикуются только в обобщённом виде, без названий компаний.</p>
+      <ul class="facts">
+        <li><b>7–10 мин</b>на ответы</li>
+        <li><b>18</b>вопросов</li>
+        <li><b>Февраль 2027</b>отчёт участникам первыми</li>
+      </ul>
+      <button type="button" class="primary" data-go="1">Начать опрос</button>
+    </div>
+    <p class="hint">Опрос для руководителей и специалистов C&amp;B, HR-директоров, финансовых директоров и сотрудников планово-экономических служб.</p>
+  </section>
+
+  <div class="progress" hidden>
+    <div class="progress-label" aria-live="polite"></div>
+    <div class="segments" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+
+  <form id="survey" novalidate>
+    <div id="blocks"></div>
+
+    <section class="step" data-step="6" aria-labelledby="contact-title">
+      <h2 id="contact-title">Получить отчёт исследования</h2>
+      <p>Оставьте e-mail, и мы пришлём полный отчёт со сравнением по отраслям и размеру компаний в феврале 2027 года. Поле необязательное: без него ответы тоже будут учтены.</p>
+
+      <label class="field" for="email">E-mail</label>
+      <input type="email" id="email" name="email" autocomplete="email" placeholder="name@company.ru">
+      <div class="err" id="email-err">Проверьте адрес: в нём должны быть «@» и домен.</div>
+
+      <label class="check">
+        <input type="checkbox" id="consent" name="consent">
+        <span>Согласен на обработку персональных данных для получения отчёта в соответствии с <a href="https://novaepm.com/agreement/" target="_blank" rel="noopener">политикой обработки персональных данных</a> ООО «НОВА ЕПМ».</span>
+      </label>
+      <div class="err" id="consent-err">Чтобы получить отчёт на e-mail, отметьте согласие на обработку данных.</div>
+
+      <label class="check">
+        <input type="checkbox" id="interview" name="interview">
+        <span>Готов к короткому интервью (20 минут) для углублённой части исследования.</span>
+      </label>
+
+      <div class="note">Ответы на вопросы хранятся отдельно от e-mail и используются только в обобщённом виде.</div>
+
+      <p class="form-error" id="send-error" role="alert">Не удалось отправить ответы. Проверьте подключение к интернету и нажмите «Отправить ответы» ещё раз.</p>
+    </section>
+
+    <div class="nav" hidden>
+      <button type="button" class="ghost" id="back">Назад</button>
+      <button type="button" class="primary" id="next">Далее</button>
+    </div>
+  </form>
+
+  <section class="done" id="done" aria-live="polite">
+    <div class="tick" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 20 20"><path d="M5 10.5l3.2 3.2L15 7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Спасибо, ответы отправлены</h2>
+    <p id="done-text">Результаты исследования мы опубликуем в феврале 2027 года.</p>
+    <p><a href="https://novaepm.com" style="color: var(--blue)">Узнать о Nova EPM</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Исследование проводит ООО «НОВА ЕПМ», novaepm.com</div>
+</footer>
+
+<script>
+/* ===== Настройки для разработчиков =====
+   ENDPOINT — куда отправляется JSON с ответами (см. README.md).
+   Просмотр без бэкенда: откройте страницу с ?preview=1 — ответы выводятся в консоль. */
+const ENDPOINT = 'https://dev.novasoftware.io/api/survey/fot-2027';
+const SURVEY_ID = 'fot-2027';
+const SURVEY_VERSION = 1;
+const CONSENT_VERSION = '2026-10';
+
+const BLOCKS = [
+  { title: 'О компании и о вас', lead: 'Ответы нужны, чтобы сравнивать компании похожего размера и отрасли.', questions: [
+    { id: 'q1', text: 'Ваша роль в компании', type: 'single', other: true, options: ['Руководитель или специалист C&B', 'HR-директор, HRBP', 'Финансовый директор, планово-экономическая служба', 'Руководитель бизнес-подразделения'] },
+    { id: 'q2', text: 'Отрасль компании', type: 'single', other: true, options: ['Ритейл и e-com', 'Финансы, банки, страхование', 'FMCG, фарма, производство', 'Нефтегаз, металлургия, энергетика', 'IT, цифровые сервисы', 'Логистика, транспорт', 'Госсектор'] },
+    { id: 'q3', text: 'Численность сотрудников', type: 'single', options: ['До 500', '500–1 000', '1 000–5 000', '5 000–20 000', 'Более 20 000'] },
+    { id: 'q4', text: 'Сколько у компании юрлиц или филиалов, для которых бюджет ФОТ планируют отдельно?', type: 'single', options: ['1', '2–5', '6–20', 'Более 20'] }
+  ]},
+  { title: 'Как устроен процесс бюджетирования ФОТ', lead: 'Речь о ежегодной бюджетной кампании на следующий год.', questions: [
+    { id: 'q5', text: 'В чём вы собираете бюджет ФОТ на следующий год?', type: 'multi', other: true, options: ['Excel или Google Таблицы', '1С ЗУП или другая учётная система', 'Финансовая CPM- или BI-система (Optimacros, Visiology и т. п.)', 'Специализированная HR-система для планирования ФОТ', 'SAP, Oracle, Workday'] },
+    { id: 'q6', text: 'Сколько длится бюджетная кампания по ФОТ — от первой цифры до утверждённого бюджета?', type: 'single', options: ['До 2 недель', '2–4 недели', '1–2 месяца', 'Более 2 месяцев'] },
+    { id: 'q7', text: 'Сколько человек в HR, C&B и финансах заняты сбором и сведением бюджета ФОТ во время кампании?', type: 'single', options: ['1–2', '3–5', '6–10', 'Более 10'] },
+    { id: 'q8', text: 'Участвуют ли руководители подразделений в планировании своего бюджета на персонал?', type: 'single', options: ['Нет, получают готовую цифру', 'Присылают заявки, сводит HR или финансы', 'Сами работают с бюджетом в системе'] },
+    { id: 'q9', text: 'Что больше всего мешает в текущем процессе?', type: 'multi', max: 3, other: true, options: ['Ручной сбор и сведение файлов', 'Ошибки в расчётах', 'Расхождение оргструктуры и штатного расписания', 'Долгие согласования', 'Нет оперативного план/факта', 'Сложно посчитать сценарии «что, если»'] }
+  ]},
+  { title: 'Точность бюджета и план/факт', lead: 'Оцените по последнему завершённому году.', questions: [
+    { id: 'q10', text: 'Насколько фактический ФОТ по итогам года отличался от плана?', type: 'single', options: ['Менее 1%', '1–3%', '3–5%', 'Более 5%', 'Не знаю, не отслеживаем'] },
+    { id: 'q11', text: 'Как часто вы видите план/факт по ФОТ в разрезе подразделений?', type: 'single', options: ['Ежемесячно или чаще', 'Ежеквартально', 'Раз в полгода или реже', 'Не видим в таком разрезе'] },
+    { id: 'q12', text: 'Как часто пересматриваете бюджет ФОТ в течение года?', type: 'single', options: ['Не пересматриваем', '1–2 раза в год', 'Ежеквартально', 'Ежемесячно'] }
+  ]},
+  { title: 'Оргизменения и сценарии', lead: 'Оргизменение — новая команда, подразделение, сокращение, пересмотр зарплат.', questions: [
+    { id: 'q13', text: 'Сколько времени занимает расчёт стоимости оргизменения — например, новой команды или подразделения?', type: 'single', options: ['Несколько часов', '1–3 дня', 'Неделя и больше', 'Стоимость обычно не считаем заранее'] },
+    { id: 'q14', text: 'Какие сценарии вам нужно было посчитать за последний год?', type: 'multi', options: ['Открытие нового подразделения или региона', 'Сокращение или оптимизация численности', 'Индексация и пересмотр зарплат', 'Перевод части сотрудников на ГПХ или гибкие формы занятости', 'Изменение бонусной системы', 'Реорганизация структуры'] },
+    { id: 'q15', text: 'Сколько оргизменений в месяц проходит согласование в вашей компании?', type: 'single', options: ['До 5', '5–20', '20–50', 'Более 50'] }
+  ]},
+  { title: 'Автоматизация и планы', lead: 'Последний блок вопросов.', questions: [
+    { id: 'q16', text: 'Планируете ли вы автоматизировать бюджетирование ФОТ?', type: 'single', options: ['Уже автоматизировано', 'Да, в 2027 году', 'Да, в 2028 году или позже', 'Не планируем'] },
+    { id: 'q17', text: 'Что важнее всего при выборе системы?', type: 'multi', max: 3, options: ['Точность расчётов и сценарии', 'Скорость внедрения', 'Удобство для руководителей подразделений', 'Интеграция с 1С, SAP и HR-системами', 'Размещение в контуре компании и требования ИБ', 'Наличие в реестре российского ПО', 'Стоимость владения'] },
+    { id: 'q18', text: 'Если вы использовали SAP, Oracle или Workday для планирования персонала, чем вы их заменили или планируете заменить?', type: 'single', options: ['Уже заменили российским решением', 'Ищем замену', 'Вернулись к Excel', 'Не использовали'] }
+  ]}
+];
+const STEP_NAMES = ['', 'о компании', 'процесс бюджетирования', 'точность бюджета', 'оргизменения', 'автоматизация', 'отчёт и контакты'];
+
+const params = new URLSearchParams(location.search);
+const PREVIEW = params.has('preview');
+const startedAt = Date.now();
+let step = 0;
+let qNum = 0;
+
+/* ---------- Рендер вопросов ---------- */
+const blocksEl = document.getElementById('blocks');
+BLOCKS.forEach((b, bi) => {
+  const sec = document.createElement('section');
+  sec.className = 'step';
+  sec.dataset.step = bi + 1;
+  const h = document.createElement('h2'); h.textContent = b.title; sec.append(h);
+  const lead = document.createElement('p'); lead.textContent = b.lead; sec.append(lead);
+
+  b.questions.forEach(q => {
+    qNum += 1;
+    const fs = document.createElement('fieldset');
+    fs.dataset.q = q.id;
+    const lg = document.createElement('legend');
+    const n = document.createElement('span'); n.className = 'num'; n.textContent = qNum + '.';
+    lg.append(n, document.createTextNode(q.text));
+    fs.append(lg);
+
+    if (q.type === 'multi') {
+      const hint = document.createElement('p'); hint.className = 'hint';
+      hint.textContent = q.max ? `Выберите до ${q.max} вариантов` : 'Можно выбрать несколько вариантов';
+      fs.append(hint);
+    }
+
+    const opts = document.createElement('div'); opts.className = 'opts';
+    const all = q.other ? [...q.options, 'Другое'] : q.options;
+    all.forEach((text, i) => {
+      const lab = document.createElement('label'); lab.className = 'opt';
+      const inp = document.createElement('input');
+      inp.type = q.type === 'multi' ? 'checkbox' : 'radio';
+      inp.name = q.id; inp.value = text;
+      if (q.other && i === all.length - 1) inp.dataset.other = '1';
+      const mark = document.createElement('span'); mark.className = 'mark';
+      const t = document.createElement('span'); t.textContent = text;
+      lab.append(inp, mark, t);
+      opts.append(lab);
+    });
+    fs.append(opts);
+
+    if (q.other) {
+      const o = document.createElement('div'); o.className = 'other';
+      const oi = document.createElement('input'); oi.type = 'text'; oi.name = q.id + '_other';
+      oi.placeholder = 'Уточните, пожалуйста'; oi.setAttribute('aria-label', 'Свой вариант ответа');
+      o.append(oi); fs.append(o);
+    }
+    if (q.max) { const c = document.createElement('div'); c.className = 'counter'; fs.append(c); }
+    const err = document.createElement('div'); err.className = 'err';
+    err.textContent = q.type === 'multi' ? 'Выберите хотя бы один вариант.' : 'Выберите вариант ответа.';
+    fs.append(err);
+
+    fs.addEventListener('change', e => onChange(fs, q, e));
+    sec.append(fs);
+  });
+  blocksEl.append(sec);
+});
+
+function onChange(fs, q, e) {
+  fs.classList.remove('invalid');
+  const checked = [...fs.querySelectorAll('input[name="' + q.id + '"]:checked')];
+  const other = fs.querySelector('.other');
+  if (other) {
+    const on = checked.some(i => i.dataset.other);
+    other.classList.toggle('show', on);
+    if (on && e.target.dataset.other && e.target.checked) other.querySelector('input').focus();
+  }
+  if (q.max) {
+    const full = checked.length >= q.max;
+    fs.querySelectorAll('input[name="' + q.id + '"]').forEach(i => { if (!i.checked) i.disabled = full; });
+    fs.querySelector('.counter').textContent = checked.length ? `Выбрано ${checked.length} из ${q.max}` : '';
+  }
+}
+
+/* ---------- Навигация ---------- */
+const steps = () => [...document.querySelectorAll('[data-step]')];
+const progress = document.querySelector('.progress');
+const nav = document.querySelector('.nav');
+const nextBtn = document.getElementById('next');
+const backBtn = document.getElementById('back');
+
+function show(n) {
+  step = n;
+  steps().forEach(s => s.classList.toggle('active', Number(s.dataset.step) === n));
+  const inSurvey = n > 0;
+  progress.hidden = !inSurvey; nav.hidden = !inSurvey;
+  if (inSurvey) {
+    progress.querySelector('.progress-label').innerHTML = `<b>Шаг ${n} из 6</b>: ${STEP_NAMES[n]}`;
+    progress.querySelectorAll('.segments i').forEach((seg, i) => {
+      seg.className = i + 1 < n ? 'done' : i + 1 === n ? 'now' : '';
+    });
+    nextBtn.textContent = n === 6 ? 'Отправить ответы' : 'Далее';
+  }
+  window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}
+
+function validateStep(n) {
+  if (n < 1 || n > 5) return true;
+  let firstBad = null;
+  BLOCKS[n - 1].questions.forEach(q => {
+    const fs = document.querySelector(`fieldset[data-q="${q.id}"]`);
+    const ok = fs.querySelectorAll(`input[name="${q.id}"]:checked`).length > 0;
+    fs.classList.toggle('invalid', !ok);
+    if (!ok && !firstBad) firstBad = fs;
+  });
+  if (firstBad) { firstBad.scrollIntoView({ block: 'center' }); firstBad.querySelector('input').focus({ preventScroll: true }); }
+  return !firstBad;
+}
+
+function validateContact() {
+  const email = document.getElementById('email');
+  const consent = document.getElementById('consent');
+  const v = email.value.trim();
+  const emailOk = !v || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  const consentOk = !v || consent.checked;
+  document.getElementById('email-err').style.display = emailOk ? 'none' : 'block';
+  document.getElementById('consent-err').style.display = consentOk ? 'none' : 'block';
+  if (!emailOk) email.focus(); else if (!consentOk) consent.focus();
+  return emailOk && consentOk;
+}
+
+document.querySelector('[data-go="1"]').addEventListener('click', () => show(1));
+backBtn.addEventListener('click', () => show(Math.max(1, step - 1)));
+nextBtn.addEventListener('click', () => {
+  if (step < 6) { if (validateStep(step)) show(step + 1); return; }
+  if (validateContact()) submit();
+});
+
+/* ---------- Отправка ---------- */
+function collect() {
+  const answers = {};
+  BLOCKS.forEach(b => b.questions.forEach(q => {
+    const vals = [...document.querySelectorAll(`input[name="${q.id}"]:checked`)].map(i => i.value);
+    answers[q.id] = q.type === 'multi' ? vals : (vals[0] || null);
+    const o = document.querySelector(`input[name="${q.id}_other"]`);
+    if (o && vals.includes('Другое') && o.value.trim()) answers[q.id + '_other'] = o.value.trim().slice(0, 300);
+  }));
+  const email = document.getElementById('email').value.trim();
+  return {
+    survey: SURVEY_ID,
+    version: SURVEY_VERSION,
+    answers,
+    contact: email ? {
+      email,
+      consent: document.getElementById('consent').checked,
+      consentVersion: CONSENT_VERSION,
+      interview: document.getElementById('interview').checked
+    } : null,
+    meta: {
+      utm_source: params.get('utm_source'),
+      utm_medium: params.get('utm_medium'),
+      utm_campaign: params.get('utm_campaign'),
+      src: params.get('src'),
+      durationSec: Math.round((Date.now() - startedAt) / 1000),
+      submittedAt: new Date().toISOString()
+    }
+  };
+}
+
+async function submit() {
+  const errEl = document.getElementById('send-error');
+  errEl.classList.remove('show');
+  nextBtn.disabled = true; nextBtn.textContent = 'Отправляем…';
+  const payload = collect();
+  try {
+    if (PREVIEW) {
+      console.log('Ответы опроса (режим просмотра, не отправлены):', payload);
+    } else {
+      const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+    }
+    finish(!!payload.contact);
+  } catch (e) {
+    errEl.classList.add('show');
+    nextBtn.disabled = false; nextBtn.textContent = 'Отправить ответы';
+  }
+}
+
+function finish(withEmail) {
+  document.getElementById('survey').hidden = true;
+  progress.hidden = true;
+  document.querySelector('[data-step="0"]').classList.remove('active');
+  document.getElementById('done-text').textContent = withEmail
+    ? 'Отчёт с результатами придёт на ваш e-mail в феврале 2027 года.'
+    : 'Результаты исследования мы опубликуем на novaepm.com в феврале 2027 года.';
+  document.getElementById('done').classList.add('active');
+  window.scrollTo({ top: 0 });
+}
+
+document.getElementById('email').addEventListener('input', () => {
+  document.getElementById('email-err').style.display = 'none';
+});
+</script>
+</body>
+</html>
